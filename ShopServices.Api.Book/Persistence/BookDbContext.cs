@@ -5,8 +5,10 @@ namespace ShopServices.Api.Book.Persistence
 {
     public class BookDbContext : DbContext
     {
+        public BookDbContext() {}
         public BookDbContext( DbContextOptions<BookDbContext> options) : base(options){}
 
-        public DbSet<BookMaterial> BookMaterial { get; set; }
+        // virtual means that can be override for future (check testing)
+        public virtual DbSet<BookMaterial> BookMaterial { get; set; }
     }
 }
