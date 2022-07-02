@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  shopservices.api.author:
+    image: ${DOCKER_REGISTRY-}shopservicesapiauthor
+    build: 
+      context: .
+      dockerfile: ShopServices.Api.Author\Dockerfile
+    
+    shopservices.api.book:
+      image: ${DOCKER_REGISTRY-}shopservicesapibook
+      build:
+        context: .
+        dockerfile: ShopServices.Api.Book/Dockerfile
+
+    shopservices.api.cart:
+      image: ${DOCKER_REGISTRY-}shopservicesapicart
+      build:
+        context: .
+        dockerfile: ShopServices.Api.Cart/Dockerfile
+
+networks:
+  default:
+    external:
+      name: microservicenet

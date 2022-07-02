@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  shopservices.api.author:
+    environment:
+      - ASP_NETCORE_ENVIROMENT=Development
+    ports:
+      - "6104:80"
+    
+  shopservices.api.book:
+    environment:
+      - ASP_NETCORE_ENVIROMENT=Development
+    ports:
+      - "6105:80"
+
+  shopservices.api.cart:
+    environment:
+      - ASP_NETCORE_ENVIROMENT=Development
+      # Overriding services
+      - Services__Books=http://shopservices.api.book
+    ports:
+      - "6106:80"
