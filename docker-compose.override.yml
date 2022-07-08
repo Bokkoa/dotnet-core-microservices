@@ -20,3 +20,12 @@ services:
       - Services__Books=http://shopservices.api.book
     ports:
       - "6106:80"
+
+  shopservices.api.gateway:
+    environment:
+      - ASP_NETCORE_ENVIROMENT=Development
+      - Services__Author=http://shopservices.api.gateway
+    depends_on:
+      - shopservices.api.book
+    ports:
+      - "6107:80"

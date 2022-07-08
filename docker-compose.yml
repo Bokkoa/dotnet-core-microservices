@@ -19,6 +19,12 @@ services:
         context: .
         dockerfile: ShopServices.Api.Cart/Dockerfile
 
+    shopservices.api.gateway:
+      image: ${DOCKER_REGISTRY-}shopservicesapigateway
+      build:
+        context: .
+        dockerfile: ShopServices.Api.Gateway/Dockerfile
+
 networks:
   default:
     external:
