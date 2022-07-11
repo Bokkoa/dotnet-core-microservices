@@ -53,7 +53,14 @@ namespace ShopServices.Api.Book
             // automapper
             services.AddAutoMapper(typeof(Query.Execute));
 
-            services.AddTransient<IRabbitEventBus, RabbitEventBus>();
+
+            // the rabbitmq
+             services.AddSingleton<IRabbitEventBus, RabbitEventBus>( sp => {
+                var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
+
+                return new RabbitEventBus(sp.GetService<IMediator>(), scopeFactory);
+            });
+            // services.AddTransient<IRabbitEventBus, RabbitEventBus>();
 
         }
 

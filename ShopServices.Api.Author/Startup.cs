@@ -7,8 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Shopservices.RabbitMQ.Bus.BusRabbit;
+using Shopservices.RabbitMQ.Bus.EventQueue;
+using Shopservices.RabbitMQ.Bus.Implement;
 using ShopServices.Api.Author.Application;
 using ShopServices.Api.Author.Persistence;
+using ShopServices.Api.Author.RabbitHandler;
 
 namespace ShopServices.Api.Author
 {
@@ -18,7 +22,6 @@ namespace ShopServices.Api.Author
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -55,6 +58,18 @@ namespace ShopServices.Api.Author
             //  auto mapper
             // this also trigger all classes with imapper implementation
             services.AddAutoMapper( typeof(QueryAuthor.Handler ));
+
+            // the rabbitmq
+            services.AddSingleton<IRabbitEventBus, RabbitEventBus>( sp => {
+                var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
+
+                return new RabbitEventBus(sp.GetService<IMediator>(), scopeFactory);
+            });
+            
+            services.AddTransient<EmailEventHandler>();
+
+            // registering the rabbitmq consumer
+            services.AddTransient<IEventHandler<EmailEventQueue>, EmailEventHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +92,12 @@ namespace ShopServices.Api.Author
             {
                 endpoints.MapControllers();
             });
+
+
+            // event configuration
+            var eventBus = app.ApplicationServices.GetRequiredService<IRabbitEventBus>();
+
+            eventBus.Subscribe<EmailEventQueue, EmailEventHandler>();
         }
     }
 }

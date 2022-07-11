@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -19,18 +20,20 @@ namespace Shopservices.RabbitMQ.Bus.Implement
         private readonly IMediator _mediator;
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public RabbitEventBus(IMediator mediator)
+        public RabbitEventBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
         {
             _mediator = mediator;
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         public void Publish<T>(T newEvent) where T : Event
         {
             var factory = new ConnectionFactory(){
-                HostName = "localhost"
+                HostName = "rabbitmq-dockerized"
             };
             using( var connection = factory.CreateConnection())
             using( var channel = connection.CreateModel()){
@@ -100,21 +103,28 @@ namespace Shopservices.RabbitMQ.Bus.Implement
             try{
 
                 if(_handlers.ContainsKey(eventName)){
-                    var subscriptions = _handlers[eventName];
 
-                    foreach (var sb in subscriptions)
-                    {
-                        var handler = Activator.CreateInstance(sb);
+                    using (var scope = _serviceScopeFactory.CreateScope()){
 
-                        if( handler == null) continue;
+                        var subscriptions = _handlers[eventName];
 
-                        var eventType = _eventTypes.SingleOrDefault( x => x.Name == eventName);
-                        var eventDs = JsonConvert.DeserializeObject(message, eventType);
+                        foreach (var sb in subscriptions)
+                        {
+                            var handler = scope.ServiceProvider.GetService(sb); // Activator.CreateInstance(sb);
 
-                        var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
+                            if( handler == null) continue;
 
-                        await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[]{ eventDs });
+                            var eventType = _eventTypes.SingleOrDefault( x => x.Name == eventName);
+                            var eventDs = JsonConvert.DeserializeObject(message, eventType);
+
+                            var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
+
+                            await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[]{ eventDs });
+                        }
+
                     }
+
+                
                 }
 
             }catch( Exception ex){
