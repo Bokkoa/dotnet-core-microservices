@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopservices.Api.Gateway", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopservices.RabbitMQ.Bus", "Shopservices.RabbitMQ.Bus\Shopservices.RabbitMQ.Bus.csproj", "{36AD8EE9-3171-430F-BFBF-CBCC39008B98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopServices.Messenger.Email", "ShopServices.Messenger.Email\ShopServices.Messenger.Email.csproj", "{323ED683-059B-4F24-87F7-A5F3F14FB300}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,5 +102,17 @@ Global
 		{36AD8EE9-3171-430F-BFBF-CBCC39008B98}.Release|x64.Build.0 = Release|Any CPU
 		{36AD8EE9-3171-430F-BFBF-CBCC39008B98}.Release|x86.ActiveCfg = Release|Any CPU
 		{36AD8EE9-3171-430F-BFBF-CBCC39008B98}.Release|x86.Build.0 = Release|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Debug|x64.Build.0 = Debug|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Debug|x86.Build.0 = Debug|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Release|x64.ActiveCfg = Release|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Release|x64.Build.0 = Release|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Release|x86.ActiveCfg = Release|Any CPU
+		{323ED683-059B-4F24-87F7-A5F3F14FB300}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

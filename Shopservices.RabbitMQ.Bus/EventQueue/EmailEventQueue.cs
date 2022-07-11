@@ -6,13 +6,13 @@ namespace Shopservices.RabbitMQ.Bus.EventQueue
     {
         public string Receiver { get; set; }
         public string Title { get; set; }
-        public string Conent { get; set; }
+        public string Content { get; set; }
 
-         public EmailEventQueue(string receiver, string title, string conent)
+         public EmailEventQueue(string receiver, string title, string content)
         {
             this.Receiver = receiver;
             this.Title = title;
-            this.Conent = conent;
+            this.Content = content;
 
         }
 

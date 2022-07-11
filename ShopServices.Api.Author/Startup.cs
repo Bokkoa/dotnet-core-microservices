@@ -13,6 +13,8 @@ using Shopservices.RabbitMQ.Bus.Implement;
 using ShopServices.Api.Author.Application;
 using ShopServices.Api.Author.Persistence;
 using ShopServices.Api.Author.RabbitHandler;
+using ShopServices.Messenger.Email.SendGridLibrary.Implement;
+using ShopServices.Messenger.Email.SendGridLibrary.Interface;
 
 namespace ShopServices.Api.Author
 {
@@ -70,6 +72,9 @@ namespace ShopServices.Api.Author
 
             // registering the rabbitmq consumer
             services.AddTransient<IEventHandler<EmailEventQueue>, EmailEventHandler>();
+
+            // Sendgrid client
+            services.AddSingleton<ISendGridSend, SendGridSend>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
