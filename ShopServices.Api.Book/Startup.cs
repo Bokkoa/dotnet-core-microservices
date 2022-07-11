@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Shopservices.RabbitMQ.Bus.BusRabbit;
+using Shopservices.RabbitMQ.Bus.Implement;
 using ShopServices.Api.Book.Application;
 using ShopServices.Api.Book.Persistence;
 
@@ -50,6 +52,8 @@ namespace ShopServices.Api.Book
 
             // automapper
             services.AddAutoMapper(typeof(Query.Execute));
+
+            services.AddTransient<IRabbitEventBus, RabbitEventBus>();
 
         }
 
